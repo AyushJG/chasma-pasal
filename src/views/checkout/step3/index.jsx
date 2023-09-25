@@ -4,7 +4,7 @@ import { displayActionMessage } from "@/helpers/utils";
 import { useDocumentTitle, useScrollTop } from "@/hooks";
 import PropType from "prop-types";
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { StepTracker } from "../components";
 import withCheckout from "../hoc/withCheckout";
@@ -12,6 +12,7 @@ import CreditPayment from "./CreditPayment";
 import PayPalPayment from "./PayPalPayment";
 import Total from "./Total";
 import CashOnDelivery from "./CashOnDelivery";
+import KhaltiPayment from "./KhaltiPayment";
 
 const FormSchema = Yup.object().shape({
   name: Yup.string()
@@ -48,6 +49,7 @@ const Payment = ({ shipping, payment, subtotal }) => {
   if (!shipping || !shipping.isDone) {
     return <Redirect to={CHECKOUT_STEP_1} />;
   }
+  const history = useHistory();
   return (
     <div className="checkout">
       <StepTracker current={3} />
@@ -59,14 +61,18 @@ const Payment = ({ shipping, payment, subtotal }) => {
           if (form.type === "paypal") {
             displayActionMessage("Feature not ready yet :)", "info");
           }
+          if (form.type === "Khalti") {
+            window.location.href = "https://web.khalti.com/#/";
+          }
         }}
         onSubmit={onConfirm}
       >
         {() => (
           <Form className="checkout-step-3">
             <CreditPayment />
-            <PayPalPayment />
-            <CashOnDelivery />
+            {/* <PayPalPayment />
+            <CashOnDelivery /> */}
+            <KhaltiPayment />
             <Total
               isInternational={shipping.isInternational}
               subtotal={subtotal}
