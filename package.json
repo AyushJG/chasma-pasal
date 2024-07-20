@@ -1,4 +1,5 @@
 {
+  "homepage": "https://ayushjg.github.io/",
   "name": "ecommerce-react",
   "version": "1.2.0",
   "main": "index.js",
@@ -12,7 +13,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "vite build  && cd dist && cp index.html 404.html",
+    "build": "vite build && cd dist && cp index.html 404.html",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "serve": "vite preview",
     "test": "cross-env NODE_ENV=test jest --config=jest.config.json"
   },
